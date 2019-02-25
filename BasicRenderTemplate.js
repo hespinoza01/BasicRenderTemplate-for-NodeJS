@@ -1,20 +1,21 @@
+'use strict';
+
 const fs = require('fs');
 
 const render = (routeFile, params) => {
-  fs.readFile(routeFile, (err, html) => {
-    var variableList = html.match(/[^\{\}]+(?=\})/g),
+
+  let html = fs.readFileSync(routeFile).toString(),
+      variableList = html.match(/[^\{\}]+(?=\})/g);
 
     // Iteración del archivo cargado y remplazo con el valor de la variable
     variableList.forEach((variable, i) => {
-      var value = params[variable];
+      let value = params[variable];
       html = html.replace(`{${variable}}`, value);
     });
 
-    return html;
-  });
-
-  return "";
+  console.log("r: ", html);
+  return html;
 };
 
 
-export default render;
+module.exports.render=render;
